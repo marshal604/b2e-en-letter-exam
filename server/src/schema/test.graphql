@@ -1,0 +1,9 @@
+type PsqlTest {
+    id: Int
+    body: PsqlTestBody
+}
+
+type PsqlTestBody {
+    title: String
+    user: String
+}
