@@ -1,0 +1,20 @@
+type UserInfo {
+  userId: String!
+  name: String!
+  role: Int!
+  email: String!
+  account: String
+  password: String
+}
+
+
+input LoginRequest {
+  account: String!
+  password: String!
+}
+
+input LoginOAuthRequest {
+  userId: String!
+  name: String!
+  email: String!
+}

@@ -1,0 +1,34 @@
+@startuml
+Actor user
+
+loginPage -> loginPage: check auth status
+alt if auth is empty
+    alt if do FB auth login
+        user -> loginPage: click FB login
+        user -> FB: open auth page
+        user -> FB: click login
+        FB -> loginPage: login success
+        loginPage -> FB: query FB info API
+        FB -> loginPage: response info
+        loginPage -> backend: login with FB info parameter
+        backend -> loginPage: login success
+        loginPage -> homePage: redirect to homePage
+    else if do other login
+        user -> loginPage: click other identify login
+        loginPage -> otherLoginPage: redirect to otherLoginPage
+        user -> otherLoginPage: type account, password
+        user -> otherLoginPage: click login button
+        otherLoginPage -> authService: encrypt password
+        otherLoginPage -> backend: login with account, password 
+        backend -> otherLoginPage: login success
+        otherLoginPage -> homePage: redirect to homePage
+    end
+else if has FB auth
+    loginPage -> FB: auto do login
+    loginPage -> FB: query FB info API
+    FB -> loginPage: response info
+    loginPage -> backend: login with FB info parameter
+    backend -> loginPage: login success
+    loginPage -> homePage: redirect to homePage
+end
+@enduml
