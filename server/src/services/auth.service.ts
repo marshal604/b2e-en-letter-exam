@@ -12,7 +12,7 @@ export class AuthService {
     // if has user >> get user, return userInfo
     return this.authDB
       .findUser(req)
-      .then(async res => {
+      .then(async (res: UserInfo) => {
         const userInfo = {
           name: req.name,
           role: UserRole.User,
@@ -25,7 +25,7 @@ export class AuthService {
         await this.authDB.createUser(userInfo);
         return userInfo;
       })
-      .catch(err => {
+      .catch((err: Error) => {
         throw new Error(err.message);
       });
   }
@@ -36,7 +36,7 @@ export class AuthService {
     // if has user >> get user, return userInfo
     return this.authDB
       .findUser(req)
-      .then(res => {
+      .then((res: UserInfo) => {
         return res
           ? {
               name: res.name,
@@ -51,15 +51,8 @@ export class AuthService {
               userId: '-1'
             };
       })
-      .catch(err => {
+      .catch((err: Error) => {
         throw new Error(err.message);
       });
-  }
-
-  async createUser(req: LoginOAuthRequest) {
-    this.authDB.createUser(req);
-    // query db to create user by req
-    // if error >> throw error
-    // else >> do nothing
   }
 }
