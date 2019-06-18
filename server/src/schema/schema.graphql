@@ -1,5 +1,6 @@
-# import * from "./test.graphql";
+# import * from "./auth.graphql";
 type Query {
-  sayHello(name: String): String!
-  psqlTest: [PsqlTest]
+  SayHello(name: String): String!
+  Login(req: LoginRequest): UserInfo
+  LoginWithOAuth(req: LoginOAuthRequest): UserInfo
 }
