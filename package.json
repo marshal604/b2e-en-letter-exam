@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "english-letter-exam server or api service",
   "main": "index.js",
+  "engines": {
+    "node": "11.9.0"
+  },
   "scripts": {
     "start": "npm run serve:server",
     "start:server:dev": "npm run watch-serve",
