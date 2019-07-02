@@ -1,6 +1,16 @@
 # import * from "./auth.graphql";
+# import * from "./exam.graphql";
+
 type Query {
   SayHello(name: String): String!
   Login(req: LoginRequest): UserInfo
   LoginWithOAuth(req: LoginOAuthRequest): UserInfo
+  GetExamQuestionList: [ExamQuestionBankInfo]
+  GetExamQuestionItem(req: GetExamQuestionItemRequest): ExamQuestionBankInfo
+}
+
+type Mutation {
+  CreateExamQuestion(req: CreateExamQuestionRequest): ExamQuestionID
+  UpdateExamQuestion(req: UpdateExamQuestionRequest): ExamQuestionID
+  DeleteExamQuestion(req: DeleteExamQuestionRequest): ExamQuestionID
 }
