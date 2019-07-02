@@ -2,9 +2,10 @@ import { ExamDB } from '@db/exam/exam.db';
 import {
   CreateExamQuestionRequest,
   UpdateExamQuestionRequest,
-  DeleteExamQuesionRequest,
+  DeleteExamQuestionRequest,
   ExamQuestionBankInfo,
-  GetExamQuesionItemRequest
+  GetExamQuestionItemRequest,
+  ExamQuestionID
 } from '@models/exam/exam.model';
 export class ExamService {
   examDB: ExamDB;
@@ -12,23 +13,36 @@ export class ExamService {
     this.examDB = new ExamDB();
   }
 
-  createExamQuestion(req: CreateExamQuestionRequest): Promise<void> {
-    return Promise.resolve();
+  createExamQuestion(req: CreateExamQuestionRequest): Promise<ExamQuestionID> {
+    return this.examDB.isDuplicateName(req).then(isDuplicate => {
+      if (isDuplicate) {
+        throw Error('name is diplicate');
+      }
+      return this.examDB.createExamQuestion(req).then(() => ({ id: req.id }));
+    });
   }
 
-  updateExamQuestion(req: UpdateExamQuestionRequest): Promise<ExamQuestionBankInfo | any> {
-    return Promise.resolve(null);
+  updateExamQuestion(req: UpdateExamQuestionRequest): Promise<ExamQuestionID> {
+    return this.examDB.isDuplicateName(req).then(isDuplicate => {
+      if (isDuplicate) {
+        throw Error('name is diplicate');
+      }
+      return this.examDB.updateExamQuestion(req).then(() => ({ id: req.id }));
+    });
   }
 
-  deleteExamQuestion(req: DeleteExamQuesionRequest): Promise<void> {
-    return Promise.resolve();
+  deleteExamQuestion(req: DeleteExamQuestionRequest): Promise<ExamQuestionID> {
+    return this.examDB
+      .getExamQuestionItem(req)
+      .then(() => this.examDB.deleteExamQuestion(req))
+      .then(() => ({ id: req.id }));
   }
 
   getExamQuestionList(): Promise<ExamQuestionBankInfo[]> {
-    return Promise.resolve([]);
+    return this.examDB.getExamQuestionList();
   }
 
-  getExamQuestionItem(req: GetExamQuesionItemRequest): Promise<ExamQuestionBankInfo | any> {
-    return Promise.resolve(null);
+  getExamQuestionItem(req: GetExamQuestionItemRequest): Promise<ExamQuestionBankInfo | null> {
+    return this.examDB.getExamQuestionItem(req);
   }
 }

@@ -1,0 +1,58 @@
+type ExamQuestionBankInfo {
+  id: String!
+  name: String!
+  setting: ExamSetting!
+  question: ExamQuestion!
+}
+
+type ExamQuestionID {
+  id: String!
+}
+
+type ExamSetting {
+  examTime: Int!
+  examQuestionDisplayCount: Int!
+  examQuestionType: Int!
+  examPassScore: Int!
+  examAllowCount: Int!
+}
+
+type ExamQuestion {
+  chinese: [String!]!
+  english: [String!]!
+}
+
+input ExamSettingInput {
+  examTime: Int!
+  examQuestionDisplayCount: Int!
+  examQuestionType: Int!
+  examPassScore: Int!
+  examAllowCount: Int!
+}
+
+input ExamQuestionInput {
+  chinese: [String!]!
+  english: [String!]!
+}
+
+input CreateExamQuestionRequest {
+  id: String!
+  name: String!
+  setting: ExamSettingInput!
+  question: ExamQuestionInput!
+}
+
+input UpdateExamQuestionRequest {
+  id: String!
+  name: String!
+  setting: ExamSettingInput!
+  question: ExamQuestionInput!
+}
+
+input GetExamQuestionItemRequest {
+  id: String!
+}
+
+input DeleteExamQuestionRequest {
+  id: String!
+}

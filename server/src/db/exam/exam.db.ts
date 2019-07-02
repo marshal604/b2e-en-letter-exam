@@ -1,4 +1,11 @@
 import { BaseDB } from '@db/base.db';
+import {
+  CreateExamQuestionRequest,
+  UpdateExamQuestionRequest,
+  DeleteExamQuestionRequest,
+  ExamQuestionBankInfo,
+  GetExamQuestionItemRequest
+} from '@models/exam/exam.model';
 
 export class ExamDB extends BaseDB {
   tableName = 'exam_question_bank';
@@ -7,35 +14,47 @@ export class ExamDB extends BaseDB {
     super();
   }
 
-  // createUser(req: LoginOAuthRequest): Promise<void> {
-  //   const body = JSON.stringify(req);
-  //   const sql = `INSERT INTO ${this.tableName} VALUES('${req.userId}', '${body}');`;
-  //   return new Promise((resolve, reject) => {
-  //     this.psql
-  //       .none(sql)
-  //       .then(() => resolve())
-  //       .catch(error => reject(error));
-  //   });
-  // }
+  createExamQuestion(req: CreateExamQuestionRequest): Promise<null> {
+    const body = JSON.stringify(req);
+    const sql = `INSERT INTO ${this.tableName} VALUES('${req.id}', '${body}')`;
+    return this.psql.none(sql);
+  }
 
-  // findUser(req: LoginOAuthRequest | LoginRequest): Promise<UserInfo> {
-  //   let sql = `SELECT * FROM ${this.tableName} WHERE 1 = 1 `;
-  //   const loginOAuthReq: LoginOAuthRequest = req as LoginOAuthRequest;
-  //   const loginReq: LoginRequest = req as LoginRequest;
+  updateExamQuestion(req: UpdateExamQuestionRequest): Promise<null> {
+    const body = JSON.stringify(req);
+    const sql = `UPDATE ${this.tableName} SET body = body || '${body}' WHERE body->>'id' = '${
+      req.id
+    }'`;
+    return this.psql.none(sql);
+  }
 
-  //   if (loginOAuthReq.userId) {
-  //     sql += `AND body->>'userId' = '${loginOAuthReq.userId}'`;
-  //   } else if (loginReq.account) {
-  //     sql += `AND body->>'account' = '${loginReq.account}' AND body->>'password' = '${
-  //       loginReq.password
-  //     }'`;
-  //   }
+  deleteExamQuestion(req: DeleteExamQuestionRequest): Promise<null> {
+    const sql = `DELETE FROM ${this.tableName} WHERE body->>'id' = '${req.id}'`;
+    return this.psql.none(sql);
+  }
 
-  //   return new Promise((reslove, reject) => {
-  //     this.psql
-  //       .oneOrNone(sql)
-  //       .then(res => reslove(res))
-  //       .catch(err => reject(err));
-  //   });
-  // }
+  getExamQuestionList(): Promise<ExamQuestionBankInfo[]> {
+    const sql = `SELECT body FROM ${this.tableName}`;
+    return this.psql
+      .manyOrNone(sql)
+      .then(rows => (rows.length ? rows.map((item: any) => item.body) : []));
+  }
+
+  getExamQuestionItem(req: GetExamQuestionItemRequest): Promise<ExamQuestionBankInfo> {
+    let sql = `SELECT body FROM ${this.tableName} WHERE 1 = 1 `;
+    if (req.id) {
+      sql += ` AND body->>'id' = '${req.id}'`;
+    }
+    return this.psql.oneOrNone(sql).then((data: any) => {
+      if (!data) {
+        return Promise.reject('id not found.');
+      }
+      return data.body;
+    });
+  }
+
+  isDuplicateName(req: CreateExamQuestionRequest | UpdateExamQuestionRequest): Promise<boolean> {
+    const sql = `SELECT body FROM ${this.tableName} WHERE body->>'name' = '${req.name}'`;
+    return this.psql.oneOrNone(sql).then(row => !!row && row.userId !== req.id);
+  }
 }
