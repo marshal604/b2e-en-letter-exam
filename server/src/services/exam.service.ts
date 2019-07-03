@@ -1,3 +1,5 @@
+import { v4 } from 'uuid';
+
 import { ExamDB } from '@db/exam/exam.db';
 import {
   CreateExamQuestionRequest,
@@ -14,6 +16,7 @@ export class ExamService {
   }
 
   createExamQuestion(req: CreateExamQuestionRequest): Promise<ExamQuestionID> {
+    req.id = v4();
     return this.examDB.isDuplicateName(req).then(isDuplicate => {
       if (isDuplicate) {
         throw Error('name is diplicate');
