@@ -31,7 +31,7 @@ mutation SaveExamQuestionResult($req: SaveExamResultRequest) {
       }
     ],
     "examScore": 10,
-    "isCompeleted": true
+    "isCompleted": true
   }
 }
 ```

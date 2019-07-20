@@ -19,6 +19,6 @@ export class ExamResultService {
       req.examTime = examTime.toString();
     }
 
-    return this.examResultDb.saveExamQuestionResult(req).then(() => ({ id: req.id }));
+    return this.examResultDb.saveExamQuestionResult(req).then(() => ({ id: req.id as string }));
   }
 }
