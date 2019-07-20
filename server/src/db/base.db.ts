@@ -7,7 +7,7 @@ const dbConnect = `postgresql://${dbConfig.user}:${dbConfig.password}@${dbConfig
 const pgp = pgPromise({});
 const psql = pgp(dbConnect);
 export class BaseDB {
-  psql: pgPromise.IDatabase<{}>;
+  psql: pgPromise.IDatabase<unknown>;
   constructor() {
     this.psql = psql;
   }

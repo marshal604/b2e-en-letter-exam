@@ -1,0 +1,27 @@
+input SaveExamResultRequest {
+  examId: String!
+  userId: String!
+  examName: String!
+  userName: String!
+  result: [SaveExamResultContent!]!
+  examScore: Int!
+  isCompleted: Boolean!
+  id: String
+  examTime: String
+}
+
+input SaveExamResultContent {
+  numberOfQuestion: Int!
+  choose: ExamResult!
+  answer: ExamResult!
+  isCorrect: Boolean!
+}
+
+input ExamResult {
+  name: String!
+  questionId: String
+}
+
+type ExamQuestionResultID {
+  id: String!
+}
