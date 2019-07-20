@@ -9,10 +9,13 @@ import {
   GetExamQuestionItemRequest,
   ExamQuestionID
 } from '@models/exam/exam.model';
+import { SaveExamResultRequest, ExamQuestionResultID } from '@models/exam/exam-result.model';
+import { ExamResultService } from '@service/exam-result.service';
 
 const service = {
   auth: new AuthService(),
-  exam: new ExamService()
+  exam: new ExamService(),
+  examResult: new ExamResultService()
 };
 export const resolvers = {
   Query: {
@@ -51,6 +54,12 @@ export const resolvers = {
       arg: { req: DeleteExamQuestionRequest }
     ): Promise<ExamQuestionID> => {
       return service.exam.deleteExamQuestion(arg.req);
+    },
+    SaveExamQuestionResult: (
+      _: any,
+      arg: { req: SaveExamResultRequest }
+    ): Promise<ExamQuestionResultID> => {
+      return service.examResult.saveExamQuestionResult(arg.req);
     }
   }
 };

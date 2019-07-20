@@ -1,5 +1,6 @@
 # import * from "./auth.graphql";
 # import * from "./exam.graphql";
+# import * from "./exam-result.graphql";
 
 type Query {
   SayHello(name: String): String!
@@ -13,4 +14,5 @@ type Mutation {
   CreateExamQuestion(req: CreateExamQuestionRequest): ExamQuestionID
   UpdateExamQuestion(req: UpdateExamQuestionRequest): ExamQuestionID
   DeleteExamQuestion(req: DeleteExamQuestionRequest): ExamQuestionID
+  SaveExamQuestionResult(req: SaveExamResultRequest): ExamQuestionResultID
 }
