@@ -14,7 +14,6 @@ mutation SaveExamQuestionResult($req: SaveExamResultRequest) {
 ```
 {
   "req": {
-    "id": "0",
     "examId": "1",
     "userId": "test",
     "examName": "test",

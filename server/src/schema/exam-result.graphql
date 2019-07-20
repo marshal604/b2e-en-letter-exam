@@ -1,5 +1,4 @@
 input SaveExamResultRequest {
-  id: String!
   examId: String!
   userId: String!
   examName: String!
@@ -7,6 +6,7 @@ input SaveExamResultRequest {
   result: [SaveExamResultContent!]!
   examScore: Int!
   isCompeleted: Boolean!
+  id: String
   examTime: String
 }
 
