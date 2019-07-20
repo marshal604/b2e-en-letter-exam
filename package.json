@@ -11,7 +11,7 @@
     "watch-serve:server": "npm run watch-ts & npm run watch-node",
     "watch-node:server": "nodemon server/dist/server/server.js",
     "watch-ts:server": "cd server && tsc --watch",
-    "substree:model": "GIT_SSL_NO_VERIFY=true git subtree pull --prefix server/src/gql-models gql-models master --squash"
+    "subtree:model": "GIT_SSL_NO_VERIFY=true git subtree pull --prefix server/src/gql-models gql-models master --squash"
   },
   "author": "hubert",
   "license": "ISC",
