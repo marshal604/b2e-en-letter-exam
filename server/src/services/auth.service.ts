@@ -36,22 +36,13 @@ export class AuthService {
     // if has user >> get user, return userInfo
     return this.authDB
       .findUser(req)
-      .then(res => {
-        return res
-          ? {
-              name: res.name,
-              role: res.role,
-              email: res.email,
-              userId: res.userId
-            }
-          : {
-              name: '',
-              role: 0,
-              email: '',
-              userId: '-1'
-            };
-      })
-      .catch(err => {
+      .then(res => ({
+        name: res.name,
+        role: res.role,
+        email: res.email,
+        userId: res.userId
+      }))
+      .catch((err: Error) => {
         throw new Error(err.message);
       });
   }
