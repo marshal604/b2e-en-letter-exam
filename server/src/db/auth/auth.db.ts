@@ -35,7 +35,12 @@ export class AuthDB extends BaseDB {
     return new Promise((reslove, reject) => {
       this.psql
         .oneOrNone(sql)
-        .then(res => reslove(res))
+        .then(res => {
+          if (!res) {
+            throw Error('User not found.');
+          }
+          reslove(res.body);
+        })
         .catch(err => reject(err));
     });
   }
